@@ -9,16 +9,16 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <v-spacer />
-            <div v-if="$auth.loggedIn">
-              {{$auth.user.email}}
+            <b-navbar-brand v-if="$auth.loggedIn">
+              Welcome !! {{$auth.user}}
               <!-- username
               logout button -->
-            </div>
+            </b-navbar-brand>
             <div v-else>
               <!-- login
               registration -->
-              <v-btn text to="/public/loging/loging">Login</v-btn>
-              <v-btn text to="/public/loging/loging">Register</v-btn>
+              <v-btn text to="/login">Login</v-btn>
+              <v-btn text to="/register">Register</v-btn>
             </div>
       </b-collapse>
     </b-navbar>

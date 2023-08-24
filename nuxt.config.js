@@ -36,6 +36,9 @@ export default {
     '@nuxtjs/axios'
   ],
 
+  axios: {
+    baseURL: 'https://localhost:7100/api'
+  },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -45,4 +48,18 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {url: '/Login/authentication', method: 'post', propertyName: 'token'},
+          //logout: {url: '/auth/logout', method: 'post'},
+          user: {url: '/Users/5', method: 'get', propertyName: 'apellido'}
+        },
+
+        tokenType: ''
+      }
+    }
+  }
 }
