@@ -1,9 +1,12 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="/actividad/:activities">Actividad</b-navbar-brand>
-      <b-navbar-brand href="#">Indicador</b-navbar-brand>
-      <b-navbar-brand href="/servicio">Servicio</b-navbar-brand>
+      <b-navbar-brand href="/public/Indicador/indicador">Indicador</b-navbar-brand>
+      <b-navbar-brand href="/public/services/list_services">Servicio</b-navbar-brand>
+      <b-navbar-brand href="/public/Actividad/actividad">Actividad</b-navbar-brand>
+      <b-navbar-brand href="/public/Cumplimiento/cumplimiento">Cumplimiento</b-navbar-brand>
+      <b-navbar-brand href="/public/Meta/meta">Meta</b-navbar-brand>
+      <b-navbar-brand href="/public/Evidencia/evidencia">Evidencia</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 

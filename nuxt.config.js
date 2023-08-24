@@ -13,7 +13,9 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: [
+    '@/assets/css/main.css',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -47,7 +49,16 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    postcss: {
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
+      },
+    },
+  },
 
   auth: {
     strategies: {
@@ -55,7 +66,7 @@ export default {
         endpoints: {
           login: {url: '/Login/authentication', method: 'post', propertyName: 'token'},
           //logout: {url: '/auth/logout', method: 'post'},
-          user: {url: '/Users/5', method: 'get', propertyName: 'apellido'}
+          user: {url: '/Users/1', method: 'get', propertyName: 'nombre'}
         },
 
         tokenType: ''
