@@ -66,7 +66,7 @@ export default {
         endpoints: {
           login: {url: '/Login/authentication', method: 'post', propertyName: 'token'},
           //logout: {url: '/auth/logout', method: 'post'},
-          user: {url: '/Users/1', method: 'get', propertyName: 'nombre'}
+          user: {url: '/Users/2', method: 'get', propertyName: 'nombre'}
         },
 
         tokenType: ''
