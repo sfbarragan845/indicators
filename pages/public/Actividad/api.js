@@ -1,12 +1,11 @@
 // api.js
-async function getAllIndicators(optionsIndicators, token) {
+async function getAllIndicators(optionsIndicators) {
     try {
         const response = await fetch(`https://localhost:7100/api/Indicadors`, {
             method: 'GET',
             headers: {
                 'client-platform': 'browser',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -20,14 +19,13 @@ async function getAllIndicators(optionsIndicators, token) {
     }
 }
 
-async function getAllServices(optionsServices, token) {
+async function getAllServices(optionsServices) {
     try {
         const response = await fetch(`https://localhost:7100/api/Servicios`, {
             method: 'GET',
             headers: {
                 'client-platform': 'browser',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -41,14 +39,13 @@ async function getAllServices(optionsServices, token) {
     }
 }
 
-async function getActivityById(id, formData, selectedIndicator, selectedService, token) {
+async function getActivityById(id, formData, selectedIndicator, selectedService) {
     try {
         const response = await fetch(`https://localhost:7100/api/Actividads/${id}`, {
             method: 'GET',
             headers: {
                 'client-platform': 'browser',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
             },
         });
 
@@ -68,7 +65,7 @@ async function getActivityById(id, formData, selectedIndicator, selectedService,
     }
 }
 
-async function saveActivity(activityData, router, token) {
+async function saveActivity(activityData, router) {
     try {
         const URI = activityData.id == 0 ? `https://localhost:7100/api/Actividads` : `https://localhost:7100/api/Actividads/${activityData.id}`
         const response = await fetch(URI, {
@@ -76,7 +73,6 @@ async function saveActivity(activityData, router, token) {
             headers: {
                 'client-platform': 'browser',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(activityData),
         });
@@ -87,14 +83,13 @@ async function saveActivity(activityData, router, token) {
     }
 }
 
-async function listActivity(token) {
+async function listActivity() {
     try {
         const activities = await fetch('https://localhost:7100/api/Actividads', {
             method: "GET",
             headers: {
                 "client-platform": "browser",
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
             }
         });
         // Handle the response here

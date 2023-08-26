@@ -11,6 +11,7 @@
                     <h1 class="text-lg font-bold">Actividades</h1>
                 </NuxtLink>
             </div>
+            <p class="text-3xl text-indigo-500 font-bold">Formulario Actividades</p>
             <form @submit.prevent="saveActivityData" class="mt-8">
                 <div class="grid grid-cols-2 gap-4">
                     <div>

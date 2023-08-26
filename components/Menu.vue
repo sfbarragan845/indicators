@@ -3,25 +3,26 @@
     <b-navbar toggleable="lg" type="dark" variant="info">
       <div class="flex items-center space-x-4">
         <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
-          to="/public/Indicador">
+          to="/public/Indicador/indicador">
           Indicador
         </NuxtLink>
         <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
-          to="/public/services">
+          to="/public/services/list_services">
           Servicio</NuxtLink>
         <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
           to="/public/Actividad">
           Actividad
         </NuxtLink>
         <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
-          to="/public/Cumplimiento">
+          to="/public/Cumplimiento/cumplimiento">
           Cumplimiento
         </NuxtLink>
-        <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline" to="/public/Meta">
+        <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
+          to="/public/Meta/meta">
           Meta
         </NuxtLink>
         <NuxtLink class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
-          to="/public/Evidencia">
+          to="/public/Evidencia/evidencia">
           Evidencia
         </NuxtLink>
       </div>

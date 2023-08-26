@@ -68,10 +68,10 @@
                                         class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                         <EditIcon />
                                     </NuxtLink>
-                                    <button @click="deleteItem(item.entity.id)"
+                                    <NuxtLink :to="false"
                                         class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
                                         <DeleteIcon />
-                                    </button>
+                                    </NuxtLink>
                                 </div>
                             </td>
                         </tr>
