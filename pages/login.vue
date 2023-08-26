@@ -12,15 +12,18 @@
 import UserAuthForm from '@/components/UserAuthForm'
 export default {
   name: 'NuxtLogin',
-  components:{
+  components: {
     UserAuthForm
   },
-  methods:{
-    loginUser(loginInfo){
-      this.$auth.loginWith('local',{
+  methods: {
+    loginUser(loginInfo) {
+      this.$auth.loginWith('local', {
         data: loginInfo
-      })
-      console.log(loginInfo)
+      }).then((response => {
+        if (response.ok) {
+          this.$router.replace('/');
+        }
+      }))
     }
   }
 }
