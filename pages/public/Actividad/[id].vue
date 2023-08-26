@@ -82,7 +82,6 @@
 import icons from '~/icons';
 import { getActivityById, getAllIndicators, getAllServices, saveActivity } from './api';
 
-const token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYnlzb2RldiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6ImJhc29sb3J6YW5vMUBlc3BlLmVkdS5lYyIsImV4cCI6MTY5MzAwMjE0M30.OW_4eCMoltvdc8CK6FMI0RZBKItIJiS1m-TB8F9-Hhc"
 export default {
     components: {
         ReturnIcon: icons.return,
@@ -103,15 +102,15 @@ export default {
     },
     async mounted() {
         const param = this.$route.params.id;
-        this.optionsIndicators = await getAllIndicators(this.optionsIndicators, token);
-        this.optionsServices = await getAllServices(this.optionsServices, token);
+        this.optionsIndicators = await getAllIndicators(this.optionsIndicators);
+        this.optionsServices = await getAllServices(this.optionsServices);
         if (param != 0) {
-            this.formData = await getActivityById(param, this.formData, this.selectedIndicator, this.selectedService, token);
+            this.formData = await getActivityById(param, this.formData, this.selectedIndicator, this.selectedService);
         };
     },
     methods: {
         async saveActivityData() {
-            await saveActivity(this.formData, this.$router, token);
+            await saveActivity(this.formData, this.$router);
         }
     },
     name: 'NuxtCUServices',
