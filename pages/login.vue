@@ -1,10 +1,18 @@
 <template>
   <div>
-    <h1>Login</h1>
+    <div class="one">
+      <h1>Inicio de Sesión</h1>
+    </div>
     <UserAuthForm buttonText="Login" :submitForm="loginUser" />
 
-    <v-btn text to="/register">Register</v-btn>
-
+    <b-alert
+      :show="dismissCountDown"
+      dismissible
+      fade
+      v-bind:variant=variant_response
+      @dismiss-count-down="countDownChanged">
+      {{ message }}
+    </b-alert>
   </div>
 </template>
 
@@ -15,17 +23,104 @@ export default {
   components: {
     UserAuthForm
   },
+  data() {
+    return {
+      message: '',
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false,
+      variant_response:'success',
+    }
+  },
   methods: {
     loginUser(loginInfo) {
-      this.$auth.loginWith('local', {
-        data: loginInfo
-      }).then((response => {
-        if (response.ok) {
-          this.$router.replace('/');
-        }
-      }))
+      this.$auth
+        .loginWith('local', {
+          data: loginInfo,
+        })
+        .then((response) => {
+          if (response.status === 201 || response.status === 200) {
+            this.message = 'Se inicio sesión con exito';
+            this.variant_response= 'success';
+            this.showAlert();
+            setTimeout(() => {
+              this.$router.replace('/');
+            }, "1000");
+          } else {
+            this.variant_response= 'danger';
+            this.message =
+              'Error al iniciar sesión verifique su usuario y contraseña';
+              this.showAlert();
+          }
+        }) .catch((error) => {
+          if (error.response && error.response.status === 400) {
+            this.variant_response = 'danger';
+            this.message = 'Error al iniciar sesión verifique su usuario y contraseña';
+            this.showAlert();
+          }
+        });
+    },
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs
     }
-  }
+  },
+}
+</script>
+
+<style>
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  margin-top: 3%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
 }
 
-</script>
+h1 span {
+  display: block;
+  font-size: 0.5em;
+  line-height: 1.3;
+}
+h1 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* === HEADING STYLE #1 === */
+.one h1 {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #b80000;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: '';
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #b80000;
+}
+</style>

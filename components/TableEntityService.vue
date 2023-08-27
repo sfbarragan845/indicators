@@ -9,6 +9,8 @@
                     class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                     id="inline-searcg" type="text" placeholder="Search">
             </div>
+            <div class="mx-auto" style="width: 10px;">
+            </div>
             <div class="flex items-center py-2">
                 <button @click="createNewItem"
                     class="inline-flex align-items-center gap-x-2 px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600">
