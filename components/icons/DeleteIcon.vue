@@ -1,5 +1,5 @@
 <template>
-    <svg viewBox="0 0 24 24" class="h-4 w-4 text-white" fill="none">
+    <svg viewBox="0 0 24 24" class="h-4 w-full text-white  text-center" fill="none">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
         <g id="SVGRepo_iconCarrier">

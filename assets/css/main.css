@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a:hover {
+    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #4a90e2;
+    border-radius: 10rem;
+}
+
+/* Customize the scrollbar for Firefox */
+/* Note: Firefox doesn't support customizing the scrollbar width directly */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #4a90e2 transparent;
+}

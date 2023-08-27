@@ -7,7 +7,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
-      {action:'read', subject:'Auth'},
+      { action: 'read', subject: 'Auth' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -41,6 +41,15 @@ export default {
   axios: {
     baseURL: 'https://localhost:7100/api'
   },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'actividad-id',
+        path: '/public/Actividad/:id',
+        component: resolve(__dirname, 'pages/public/Actividad/[id].vue')
+      });
+    },
+  },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -64,9 +73,9 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: {url: '/Login/authentication', method: 'post', propertyName: 'token'},
+          login: { url: '/Login/authentication', method: 'post', propertyName: 'token' },
           //logout: {url: '/auth/logout', method: 'post'},
-          user: {url: '/Users/2', method: 'get', propertyName: 'nombre'}
+
         },
 
         tokenType: ''
