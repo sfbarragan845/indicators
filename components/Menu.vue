@@ -1,7 +1,11 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <div class="flex items-center space-x-4">
+
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <div class="flex items-center space-x-4 flex-grap">
         <NuxtLink
           class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
           to="/public/Indicador/indicador"
@@ -39,9 +43,6 @@
           <b>Evidencia</b>
         </NuxtLink>
       </div>
-
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-      <b-collapse id="nav-collapse" is-nav>
         <v-spacer />
         <b-navbar-brand v-if="$auth.loggedIn">
           {{ $auth.user }} <b-avatar></b-avatar>
