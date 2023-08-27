@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Register</h1>
-    <UserAuthForm buttonText="Register" :submitForm="registerUser" hasName="true"/>
+    <UserAuthForm buttonText="Register" :submitForm="registerUser" hasName="true" />
   </div>
 </template>
 
@@ -9,18 +9,18 @@
 import UserAuthForm from '@/components/UserAuthForm'
 export default {
   name: 'NuxtLogin',
-  components:{
+  components: {
     UserAuthForm
   },
-  methods:{
-    async  registerUser(registrationInfo){
+  methods: {
+    async registerUser(registrationInfo) {
       await this.$axios.post('/Users', registrationInfo)
 
-      this.$auth.loginWith('local',{
+      this.$auth.loginWith('local', {
         data: registrationInfo
       })
-
-      console.log(registrationInfo)
+      // Redirigir a la página de destino
+      this.$router.replace('');
     }
   }
 }
