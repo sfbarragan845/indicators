@@ -1,5 +1,13 @@
 <template>
     <div class="mx-auto">
+      <b-alert
+        :show="dismissCountDown"
+        dismissible
+        fade
+        v-bind:variant=variant_response
+        @dismiss-count-down="countDownChanged">
+        {{ message }}
+      </b-alert>
         <div class="-mx-4 sm:-mx-8 px-4 py-2 sm:px-8 flex flex-wrap flex-grow justify-between">
             <div class="grid place-items-center relative">
                 <span class="h-full absolute inset-y-0 left-0 flex items-center pl-3">
@@ -35,10 +43,10 @@
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.servicioAportaClienteExterno }}</td>
                             <td
                                 class="px-6 inline-flex w-full justify-center gap-x-4 py-2 whitespace-no-wrap border-b border-gray-200 text-sm text-center">
-                                <button @click="editItem(item)"
+                                <NuxtLink :to="`/public/services/${item.id}`"
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                     <EditIcon />
-                                </button>
+                                </NuxtLink>
                                 <button @click="deleteItem(item.id)"
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
                                     <DeleteIcon />
@@ -83,19 +91,51 @@ export default {
     props: {
         items: Array
     },
+    data() {
+      return {
+        message: '',
+        dismissSecs: 5,
+        dismissCountDown: 0,
+        showDismissibleAlert: false,
+        variant_response:'success',
+      }
+    },
     methods: {
-        editItem(item) {
-            // Aquí se debería manejar la lógica de edición
-            console.log(`Editar entidad con ID: ${item.id}`)
-        },
-        deleteItem(itemId) {
-            // Aquí se debería manejar la lógica de eliminación
-            console.log(`Eliminar entidad con ID: ${itemId}`)
+        async deleteItem(itemId) {
+          // Aquí se debería manejar la lógica de eliminación
+          console.log(`Eliminar entidad con ID: ${itemId}`)
+          await this.$axios.delete(`/Servicios/${itemId}`).then((response) => {
+            if (response.status === 204 || response.status === 200) {
+              this.message = 'Servicio eliminado con exito';
+              this.variant_response= 'success';
+              this.showAlert();
+              setTimeout(() => {
+                location.reload()
+              }, "2000");
+            } else {
+              this.variant_response= 'danger';
+              this.message =
+                'Error al eliminar el servicio';
+                this.showAlert();
+            }
+          }) .catch((error) => {
+            if (error.response && error.response.status === 400) {
+              this.variant_response = 'danger';
+              this.message = 'Error al eliminar el servicio';
+              this.showAlert();
+            }
+          });
         },
         createNewItem() {
             // Aquí se debería manejar la lógica de creación de nueva entidad
             console.log('Crear nueva entidad')
             this.$router.push({ path: '/public/services/services' })
+        },
+        countDownChanged(dismissCountDown) {
+          this.dismissCountDown = dismissCountDown
+        },
+        showAlert() {
+          this.dismissCountDown = this.dismissSecs
         }
     },
     name: 'NuxtTableEntity',

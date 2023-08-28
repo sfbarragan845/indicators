@@ -48,6 +48,11 @@ export default {
         path: '/public/Actividad/:id',
         component: resolve(__dirname, 'pages/public/Actividad/[id].vue')
       });
+      routes.push({
+        name: 'services-id',
+        path: '/public/services/:id',
+        component: resolve(__dirname, 'pages/public/services/[id].vue')
+      });
     },
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa

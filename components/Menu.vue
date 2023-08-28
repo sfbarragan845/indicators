@@ -14,7 +14,7 @@
         </NuxtLink>
         <NuxtLink
           class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
-          to="/public/services/list_services"
+          to="/public/services/"
         >
           <b>Servicio</b></NuxtLink
         >

@@ -3,8 +3,6 @@
     <div class="one">
       <h1>Inicio de Sesión</h1>
     </div>
-    <UserAuthForm buttonText="Login" :submitForm="loginUser" />
-
     <b-alert
       :show="dismissCountDown"
       dismissible
@@ -13,6 +11,7 @@
       @dismiss-count-down="countDownChanged">
       {{ message }}
     </b-alert>
+    <UserAuthForm buttonText="Login" :submitForm="loginUser" />
   </div>
 </template>
 

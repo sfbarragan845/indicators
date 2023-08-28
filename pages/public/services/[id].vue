@@ -1,7 +1,8 @@
 <template>
   <div>
+    <Menu/>
     <div class="one">
-      <h1>Registro</h1>
+      <h1>Editar  Servicio</h1>
     </div>
     <b-alert
       :show="dismissCountDown"
@@ -11,16 +12,16 @@
       @dismiss-count-down="countDownChanged">
       {{ message }}
     </b-alert>
-    <UserAuthForm buttonText="Registrar" :submitForm="registerUser" hasName="true" />
+    <ServiceForm buttonText="Actualizar" :submitForm="editService" hasName="false" v-bind:id_service="id_service"/>
   </div>
 </template>
 
 <script>
-import UserAuthForm from '@/components/UserAuthForm'
+import ServiceForm from '../../../components/ServiceForm.vue'
 export default {
-  name: 'NuxtLogin',
-  components: {
-    UserAuthForm
+  name: 'NuxtRegisterService',
+  components:{
+    ServiceForm
   },
   data() {
     return {
@@ -29,40 +30,40 @@ export default {
       dismissCountDown: 0,
       showDismissibleAlert: false,
       variant_response:'success',
+      id_service: this.$route.params.id,
     }
   },
-  methods: {
-    async registerUser(registrationInfo) {
-      await this.$axios.post('/Users', registrationInfo).then((response) => {
+  methods:{
+    async  editService(serviceInfo){
+      await this.$axios.put(`/Servicios/${this.$route.params.id}`, serviceInfo).then((response) => {
           if (response.status === 201 || response.status === 200) {
-            this.message = 'Servicio registrado con exito';
+            this.message = 'Servicio actualizado con exito';
             this.variant_response= 'success';
             this.showAlert();
+            setTimeout(() => {
+              this.$router.replace('/public/services/');
+            }, "2000");
           } else {
             this.variant_response= 'danger';
             this.message =
-              'Error al registrar el servicio';
+              'Error al actualizar el servicio';
               this.showAlert();
           }
         }) .catch((error) => {
           if (error.response && error.response.status === 400) {
             this.variant_response = 'danger';
-            this.message = 'Error al registrar el servicioa';
+            this.message = 'Error al actualizar el servicio';
             this.showAlert();
           }
         });
-
-      this.$auth.loginWith('local', {
-        data: registrationInfo
-      })
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown
     },
     showAlert() {
       this.dismissCountDown = this.dismissSecs
-    }
-  }
+    },
+  },
 }
 
 </script>

@@ -4,7 +4,6 @@
     <div class="one">
       <h1>Agregar  Servicio</h1>
     </div>
-    <ServiceForm buttonText="Guardar" :submitForm="registerService" hasName="true"/>
     <b-alert
       :show="dismissCountDown"
       dismissible
@@ -13,6 +12,7 @@
       @dismiss-count-down="countDownChanged">
       {{ message }}
     </b-alert>
+    <ServiceForm buttonText="Guardar" :submitForm="registerService" hasName="true"/>
   </div>
 </template>
 
@@ -40,7 +40,7 @@ export default {
             this.variant_response= 'success';
             this.showAlert();
             setTimeout(() => {
-              this.$router.replace('/public/services/list_services');
+              this.$router.replace('/public/services/');
             }, "2000");
           } else {
             this.variant_response= 'danger';
