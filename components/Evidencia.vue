@@ -29,9 +29,10 @@
                         class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-lg">
                         <!-- Contenido del modal -->
                         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-black">Añada una nueva Evidencia</h3>
+                            <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-black">Añada una nueva Evidencia
+                            </h3>
 
-                            <form @submit.prevent="agregarMeta">
+                            <form @submit.prevent="agregarEvidencia">
                                 <div class="form-group">
                                     <label for="fecha" class="form-label">Fecha</label>
                                     <input v-model="nuevaEvidencia.fecha" type="date" id="fecha"
@@ -81,7 +82,7 @@
                         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-black">Editar Evidencia</h3>
 
-                            <form @submit.prevent="actualizarMeta">
+                            <form @submit.prevent="actualizarEvidencia">
                                 <div class="form-group">
                                     <label for="fecha" class="form-label">Fecha</label>
                                     <input v-model="editarEvidencia.fecha" type="date" id="fecha"
@@ -133,21 +134,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr :class="{ 'bg-gray-100': index % 2 === 1 }" v-for="(item, index) in itemsForCurrentPage" :key="item.id">
+                        <tr :class="{ 'bg-gray-100': index % 2 === 1 }" v-for="(item, index) in itemsForCurrentPage"
+                            :key="item.id">
                             <td class="px-6 py-2 border-b border-gray-200 text-sm">{{ item.id }}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.fecha}}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.resultadoObtenido}}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.linkActaEvidencia}}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.metaId}}</td>
-                            <td class="px-6 inline-flex w-full justify-center gap-x-4 py-2 whitespace-no-wrap border-b border-gray-200 text-sm text-center">
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{
+                                formatDate(item.fecha) }}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{
+                                item.resultadoObtenido }}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{
+                                item.linkActaEvidencia }}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.metaId }}</td>
+                            <td
+                                class="px-6 inline-flex w-full justify-center gap-x-4 py-2 whitespace-no-wrap border-b border-gray-200 text-sm text-center">
                                 <button @click="openEditModal(item)"
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                     <EditIcon />
+                                </button>
+                                <button @click="deleteItem(item.id)"
+                                    class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
+                                    <DeleteIcon />
                                 </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <!--PAGINACIÓN-->
                 <div
                     class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                     <span class="text-xs xs:text-sm text-gray-900">
@@ -184,8 +195,12 @@ export default {
     data() {
         return {
             currentPage: 1, // Cambia el valor inicial según tus necesidades
-
-            // ... tus otras variables de datos ...
+            message: '',
+            dismissSecs: 5,
+            dismissCountDown: 0,
+            showDismissibleAlert: false,
+            variant_response: 'success',
+            itemId: this.$route.params.id,
             showModal: false, // Variable para controlar la visibilidad del modal
             showModal2: false, // Variable para controlar la visibilidad del modal
             nuevaEvidencia: {
@@ -193,15 +208,16 @@ export default {
                 resultadoObtenido: '',
                 linkActaEvidencia: '',
                 metaId: ''
-                // Agrega aquí más propiedades si las necesitas
             },
             editarEvidencia: {
                 fecha: '',
                 resultadoObtenido: '',
                 linkActaEvidencia: '',
                 metaId: ''
-                // Agrega aquí más propiedades si las necesitas
             },
+            metaExist: true,
+            showAlertMessage: '',
+            showAlertVariant: 'danger', // Puedes cambiar el tipo de alerta si lo deseas
         };
     },
     components: {
@@ -213,13 +229,16 @@ export default {
     },
     props: {
         items: Array,
-
     },
-
-
-
     methods: {
-        agregarMeta() {
+        async agregarEvidencia() {
+            //no permite guardar si no existe el meta id
+            const metaExists = await this.checkMetaExistence(this.nuevaEvidencia.metaId);
+            if (!metaExists) {
+                // Si el metaId no existe, muestra la advertencia
+                this.showAlert('El Meta ID no existe', 'danger');
+                return;
+            }
             // Preparar los datos del nuevo indicador
             const nuevaEvidenciaData = {
                 fecha: this.nuevaEvidencia.fecha,
@@ -257,39 +276,82 @@ export default {
                     // Puedes mostrar un mensaje de error o realizar acciones de manejo de errores
                 });
         },
-        actualizarMeta() {
-            // Preparar los datos actualizados del indicador
-            const updatedData = {
-                fecha: this.editarEvidencia.fecha,
-                resultadoObtenido: this.editarEvidencia.resultadoObtenido,
-                linkActaEvidencia: this.editarEvidencia.linkActaEvidencia,
-                metaId: this.editarEvidencia.metaId,
-            };
+        showAlert() {
+            this.dismissCountDown = this.dismissSecs;
+        },
+        async actualizarEvidencia() {
+            //no permite guardar si no existe el meta id
+            const metaExists = await this.checkMetaExistence(this.nuevaEvidencia.metaId);
+            if (!metaExists) {
+                // Si el metaId no existe, muestra la advertencia
+                this.showAlert('El Meta ID no existe', 'danger');
 
-            const itemId = this.editarEvidencia.id; // Asegúrate de tener la propiedad id en nuevaEvidencia para identificar el elemento a editar
-
-            // Realizar una solicitud PUT al servidor para actualizar
-            fetch(`https://localhost:7100/api/Evidenciums/${itemId}`, {
-                method: 'PUT',
-                headers: {
-                    "client-platform": "browser",
-                    'Content-Type': 'application/json',
-                    // Agregar cualquier otro encabezado necesario, como token de autenticación
-                },
-                body: JSON.stringify(updatedData),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Evidencia actualizada:', data);
-                    console.log('Respuesta de la API:', data);
-
-                    this.showModal2 = false;
-                    // Actualiza los datos en el componente en lugar de recargar la página
-                    this.actualizarDatos(updatedData); // Crea un método para actualizar los datos
-                })
-                .catch(error => {
-                    console.error('Error al actualizar la Evidencia:', error);
-                });
+                return;
+            }
+            try {
+                const response = await this.$axios.put(`/Evidenciums/${this.editarEvidencia.id}`, this.editarEvidencia);
+                // Cierra el modal después de actualizar
+                this.showModal2 = false;
+                // Actualiza los datos en el componente sin recargar la página
+                this.actualizarDatos(this.editarEvidencia);
+                // Recarga la pagina
+                //location.reload();
+                if (response.status === 201 || response.status === 200) {
+                    // Muestra la alerta
+                    this.message = 'Evidencia actualizada con éxito';
+                    this.variant_response = 'success';
+                    this.showAlert();
+                } else {
+                    this.variant_response = 'danger';
+                    this.message = 'Error al actualizar la Evidencia';
+                    this.showAlert();
+                }
+            } catch (error) {
+                this.variant_response = 'danger';
+                this.message = 'Error al actualizar la Evidencia';
+                this.showAlert();
+                console.error('Error al actualizar la Evidencia:', error);
+            }
+        },
+        async deleteItem(itemId) {
+            // Aquí se debería manejar la lógica de eliminación
+            console.log(`Eliminar evidencia con ID: ${itemId}`)
+            await this.$axios.delete(`/Evidenciums/${itemId}`).then((response) => {
+                if (response.status === 204 || response.status === 200) {
+                    this.message = 'Evidencia eliminada con exito';
+                    this.variant_response = 'success';
+                    this.showAlert();
+                    setTimeout(() => {
+                        location.reload()
+                    }, "2000");
+                } else {
+                    this.variant_response = 'danger';
+                    this.message =
+                        'Error al eliminar la Evidencia';
+                    this.showAlert();
+                }
+            }).catch((error) => {
+                if (error.response && error.response.status === 400) {
+                    this.variant_response = 'danger';
+                    this.message = 'Error al eliminar el Meta';
+                    this.showAlert();
+                }
+            });
+        },
+        async checkMetaExistence(metaId) {
+            try {
+                const response = await this.$axios.get(`/Metums/${metaId}`);
+                return response.status === 200;
+            } catch (error) {
+                console.error('Error checking meta existence:', error);
+                location.reload()
+                return false;
+            }
+        },
+        formatDate(dateString) {
+            const date = new Date(dateString); // Crea un objeto de fecha a partir de la cadena
+            const formattedDate = date.toISOString().split('T')[0]; // Formatea la fecha como 'YYYY-MM-DD'
+            return formattedDate;
         },
         totalPages() {
             const itemsPerPage = 5; // Cambia esto al número deseado de elementos por página
@@ -323,7 +385,7 @@ export default {
             }
         },
     },
-    name: 'NuxtTableEntity',
+    name: 'EvidenciaTable',
     computed: {
         itemsForCurrentPage() {
             const itemsPerPage = 5; // Cambia esto al número deseado de elementos por página
