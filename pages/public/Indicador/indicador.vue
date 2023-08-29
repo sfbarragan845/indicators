@@ -11,8 +11,14 @@
           <h1 class="text-lg font-bold">Indicadores</h1>
         </b-navbar-brand>
       </div>
-      <h1 class="italic text-sm subpixel-antialiased text-gray-400">Lista de Indicadores</h1>
-      <TableView :items="entities" />
+      <section class="container px-4 sm:px-8">
+        <div class="py-5">
+          <p class="text-center text-3xl text-indigo-500 font-bold">📑 Listado 📑</p>
+        </div>
+        <h1 class="italic text-sm subpixel-antialiased text-gray-400">Lista de Indicadores</h1>
+        <TableView :items="entities" />
+      </section>
+      
     </section>
 
 
