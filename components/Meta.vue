@@ -40,10 +40,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="anio" class="form-label">Año</label>
-                                    <input style="width: 5em;
-                                    padding: 0.5em;" v-model="nuevaMeta.anio" type="number" id="anio"
+                                    <select v-model="nuevaMeta.anio" id="anio"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
-                                        placeholder="AAAA" required>
+                                        required>
+                                        <option value="">Seleccione un año</option>
+                                        <!-- Generate options for years from 2000 to 2050 -->
+                                        <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="meta" class="form-label">Meta</label>
@@ -97,10 +100,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="anio" class="form-label">Año</label>
-                                    <input style="width: 5em;
-                                    padding: 0.5em;" v-model="editarMeta.anio" type="number" id="anio"
+                                    <select v-model="editarMeta.anio" id="anio"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
-                                        placeholder="AAAA" required>
+                                        required>
+                                        <option value="">Seleccione un año</option>
+                                        <!-- Generate options for years from 2000 to 2050 -->
+                                        <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="meta" class="form-label">Meta</label>
@@ -124,7 +130,8 @@
                                 <div class="flex justify-between mt-4">
                                     <button type="button" @click="showModal2 = false"
                                         class="btn btn-secondary">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <button type="submit" @click="actualizarMeta"
+                                        class="btn btn-primary">Actualizar</button>
                                 </div>
                             </form>
                         </div>
@@ -148,25 +155,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr :class="{ 'bg-gray-100': index % 2 === 1 }" v-for="(item, index) in itemsForCurrentPage" :key="item.id">
+                        <tr :class="{ 'bg-gray-100': index % 2 === 1 }" v-for="(item, index) in itemsForCurrentPage"
+                            :key="item.id">
                             <td class="px-6 py-2 border-b border-gray-200 text-sm">{{ item.id }}</td>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.periodo }}
                             </td>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.anio }}</td>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.meta }}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.metaTruncada}}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.indicadorId }}</td>
-                            <td class="px-6 inline-flex w-full justify-center gap-x-4 py-2 whitespace-no-wrap border-b border-gray-200 text-sm text-center">
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.metaTruncada
+                            }}
+                            </td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.indicadorId }}
+                            </td>
+                            <td
+                                class="px-6 inline-flex w-full justify-center gap-x-4 py-2 whitespace-no-wrap border-b border-gray-200 text-sm text-center">
                                 <button @click="openEditModal(item)"
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                     <EditIcon />
+                                </button>
+                                <button @click="deleteItem(item.id)"
+                                    class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
+                                    <DeleteIcon />
                                 </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div
-                    class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                <!--PAGINACIÓN-->
+                <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span class="text-xs xs:text-sm text-gray-900">
                         Showing {{ (currentPage - 1) * 5 + 1 }} to {{ Math.min(currentPage * 5, items.length) }} of {{
                             items.length }} Entries
@@ -184,16 +200,11 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
 </template>
 
+
 <script>
-
-
 import icons from '~/icons';
 
 export default {
@@ -201,25 +212,28 @@ export default {
     data() {
         return {
             currentPage: 1, // Cambia el valor inicial según tus necesidades
-
-            // ... tus otras variables de datos ...
+            message: '',
+            dismissSecs: 5,
+            dismissCountDown: 0,
+            showDismissibleAlert: false,
+            variant_response: 'success',
+            itemId: this.$route.params.id,
             showModal: false, // Variable para controlar la visibilidad del modal
-            showModal2: false, // Variable para controlar la visibilidad del modal
-            nuevaMeta: {
+            showModal2: false, // Variable para controlar la visibilidad del modal2
+            years: Array.from({ length: 51 }, (_, index) => 2000 + index),
+            nuevaMeta: { //agregarMeta
                 periodo: '',
                 anio: '',
                 meta: '',
                 metaTruncada: '',
                 indicadorId: '',
-                // Agrega aquí más propiedades si las necesitas
             },
-            editarMeta: {
+            editarMeta: { //editarrMeta
                 periodo: '',
                 anio: '',
                 meta: '',
                 metaTruncada: '',
                 indicadorId: '',
-                // Agrega aquí más propiedades si las necesitas
             },
         };
     },
@@ -232,11 +246,7 @@ export default {
     },
     props: {
         items: Array,
-
     },
-
-
-
     methods: {
         agregarMeta() {
             // Preparar los datos del nuevo indicador
@@ -247,7 +257,6 @@ export default {
                 metaTruncada: this.nuevaMeta.metaTruncada,
                 indicadorId: this.nuevaMeta.indicadorId
             };
-
             // Realizar una solicitud POST al servidor
             fetch('https://localhost:7100/api/Metums', {
                 method: 'POST',
@@ -277,40 +286,59 @@ export default {
                     // Puedes mostrar un mensaje de error o realizar acciones de manejo de errores
                 });
         },
-        actualizarMeta() {
-            // Preparar los datos actualizados del indicador
-            const updatedData = {
-                periodo: this.editarMeta.periodo,
-                anio: this.editarMeta.anio,
-                meta: this.editarMeta.meta,
-                metaTruncada: this.editarMeta.metaTruncada,
-                indicadorId: this.editarMeta.indicadorId,
-            };
-
-            const itemId = this.editarMeta.id; // Asegúrate de tener la propiedad id en nuevaMeta para identificar el elemento a editar
-
-            // Realizar una solicitud PUT al servidor para actualizar
-            fetch(`https://localhost:7100/api/Metums/${itemId}`, {
-                method: 'PUT',
-                headers: {
-                    "client-platform": "browser",
-                    'Content-Type': 'application/json',
-                    // Agregar cualquier otro encabezado necesario, como token de autenticación
-                },
-                body: JSON.stringify(updatedData),
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Meta actualizada:', data);
-                    console.log('Respuesta de la API:', data);
-
-                    this.showModal2 = false;
-                    // Actualiza los datos en el componente en lugar de recargar la página
-                    this.actualizarDatos(updatedData); // Crea un método para actualizar los datos
-                })
-                .catch(error => {
-                    console.error('Error al actualizar la meta:', error);
-                });
+        showAlert() {
+            this.dismissCountDown = this.dismissSecs;
+        },
+        async actualizarMeta() {
+            try {
+                const response = await this.$axios.put(`/Metums/${this.editarMeta.id}`, this.editarMeta);
+                // Cierra el modal después de actualizar
+                this.showModal2 = false;
+                // Actualiza los datos en el componente sin recargar la página
+                this.actualizarDatos(this.editarMeta);
+                // Recarga la pagina
+                //location.reload();
+                if (response.status === 201 || response.status === 200) {
+                    // Muestra la alerta
+                    this.message = 'Meta actualizada con éxito';
+                    this.variant_response = 'success';
+                    this.showAlert();
+                } else {
+                    this.variant_response = 'danger';
+                    this.message = 'Error al actualizar la meta';
+                    this.showAlert();
+                }
+            } catch (error) {
+                this.variant_response = 'danger';
+                this.message = 'Error al actualizar la meta';
+                this.showAlert();
+                console.error('Error al actualizar la meta:', error);
+            }
+        },
+        async deleteItem(itemId) {
+            // Aquí se debería manejar la lógica de eliminación
+            console.log(`Eliminar entidad con ID: ${itemId}`)
+            await this.$axios.delete(`/Metums/${itemId}`).then((response) => {
+                if (response.status === 204 || response.status === 200) {
+                    this.message = 'Meta eliminado con exito';
+                    this.variant_response = 'success';
+                    this.showAlert();
+                    setTimeout(() => {
+                        location.reload()
+                    }, "2000");
+                } else {
+                    this.variant_response = 'danger';
+                    this.message =
+                        'Error al eliminar el Meta';
+                    this.showAlert();
+                }
+            }).catch((error) => {
+                if (error.response && error.response.status === 400) {
+                    this.variant_response = 'danger';
+                    this.message = 'Error al eliminar el Meta';
+                    this.showAlert();
+                }
+            });
         },
         totalPages() {
             const itemsPerPage = 5; // Cambia esto al número deseado de elementos por página
@@ -319,17 +347,6 @@ export default {
         setCurrentPage(page) {
             const totalPages = this.totalPages();
             this.currentPage = Math.min(Math.max(page, 1), totalPages);
-        },
-        saveNewItem() {
-            this.showModal = false;
-        },
-        editItem(item) {
-            // Aquí se debería manejar la lógica de edición
-            console.log(`Editar entidad con ID: ${item.id}`)
-        },
-        createNewItem() {
-            // Aquí se debería manejar la lógica de creación de nueva entidad
-
         },
         openEditModal(item) {
             this.editarMeta = { ...item }; // Copia los datos del item en el formulario de edición
@@ -344,7 +361,7 @@ export default {
             }
         },
     },
-    name: 'NuxtTableEntity',
+    name: 'MetaTable',
     computed: {
         itemsForCurrentPage() {
             const itemsPerPage = 5; // Cambia esto al número deseado de elementos por página
