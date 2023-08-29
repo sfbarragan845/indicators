@@ -68,7 +68,7 @@
                                         class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                         <EditIcon />
                                     </NuxtLink>
-                                    <button title="Eliminar deshabilitado temporalmente" disabled
+                                    <button title="Eliminar se ha deshabilitado temporalmente" disabled
                                         class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-gray-400">
                                         <DeleteIcon />
                                     </button>
