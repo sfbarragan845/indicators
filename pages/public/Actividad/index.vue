@@ -28,6 +28,7 @@ export default {
     this.services = await getAllServices();
     this.indicator = await getAllIndicators();
     this.innerData = this.innerReference();
+    console.log(this.innerData);
   },
   methods: {
     innerReference() {
