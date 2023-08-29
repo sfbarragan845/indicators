@@ -60,7 +60,7 @@
                             }}</td>
                             <td class="p-2 whitespace-no-wrap border-gray-200 text-sm">{{ item.indicator.nombre
                             }}</td>
-                            <td class="p-2 whitespace-no-wrap border-gray-200 text-sm">{{ item.indicator.nombre
+                            <td class="p-2 whitespace-no-wrap border-gray-200 text-sm">{{ item.service.nombre
                             }}</td>
                             <td class="p-2 border-gray-200 text-sm text-center">
                                 <div class="grid whitespace-no-wrap grid-cols-2 gap-x-2">
