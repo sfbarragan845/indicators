@@ -10,7 +10,7 @@
                     id="inline-searcg" type="text" placeholder="Search">
             </div>
             <div class="items-center py-2 text-center">
-                <NuxtLink to="/actividad/0"
+                <NuxtLink to="./actividad/0"
                     class="whitespace-nowrap inline-flex align-items-center gap-x-2 px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-indigo-500 hover:bg-indigo-600">
                     <AddIcon /> <span>Nueva Actividad</span>
                 </NuxtLink>
@@ -68,10 +68,10 @@
                                         class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                         <EditIcon />
                                     </NuxtLink>
-                                    <NuxtLink :to="false"
-                                        class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
+                                    <button title="Eliminar se ha deshabilitado temporalmente" disabled
+                                        class="inline-block p-2 text-sm leading-5 font-medium rounded-md text-white bg-gray-400">
                                         <DeleteIcon />
-                                    </NuxtLink>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
