@@ -5,12 +5,7 @@
     </header>
 
     <section class="container px-4 sm:px-8">
-      <div class="py-4">
-        <b-navbar-brand class="text-indigo-500 hover:text-indigo-600 inline-flex align-center gap-x-4" href="/">
-          <ReturnIcon />
-          <h1 class="text-lg font-bold">Indicadores</h1>
-        </b-navbar-brand>
-      </div>
+
       <section class="container px-4 sm:px-8">
         <div class="py-5">
           <p class="text-center text-3xl text-indigo-500 font-bold">📑 Listado 📑</p>
