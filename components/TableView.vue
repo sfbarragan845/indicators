@@ -115,11 +115,76 @@
                     <div
                         class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-lg">
                         <!-- Contenido del modal -->
-                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 scrollable-modal-content">
                             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-black">Editar Indicador</h3>
 
                             <form @submit.prevent="actualizarIndicador">
-
+                                <div class="form-group">
+                                    <label for="codigo" class="form-label">Codigo</label>
+                                    <input v-model="editarIndicador.codigo" type="text" id="codigo"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Codigo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input v-model="editarIndicador.nombre" type="text" id="nombre"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="formula" class="form-label">Formula</label>
+                                    <input v-model="editarIndicador.formula" type="text" id="formula"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Formula" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="descripcion" class="form-label">Descripcion</label>
+                                    <textarea v-model="editarIndicador.descripcion" type="text" id="descripcion"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Descripcion" rows="4" cols="50" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaInicioMedicion" class="form-label">Fecha de Inicio Medicion</label>
+                                    <input v-model="editarIndicador.fechaInicioMedicion" type="date" id="fechaInicioMedicion"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="YYYY-MM-DD" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportaA" class="form-label">Reporta </label>
+                                    <input v-model="editarIndicador.reportaA" type="text" id="reportaA"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Reporte" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lineaBase" class="form-label">Linea Base </label>
+                                    <input v-model="editarIndicador.lineaBase" type="number" id="lineaBase"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Linea Base" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="comportamiento" class="form-label">Comportamiento </label>
+                                    <input v-model="editarIndicador.comportamiento" type="text" id="comportamiento"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Comportamiento" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="unidadMedida" class="form-label">Unidad de Medida </label>
+                                    <input v-model="editarIndicador.unidadMedida" type="text" id="unidadMedida"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Unidad de Medida" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sentidoMedicion" class="form-label">Sentido de Medicion </label>
+                                    <input v-model="editarIndicador.sentidoMedicion" type="text" id="sentidoMedicion"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Sentido Medición" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="denominador" class="form-label">Denominador </label>
+                                    <input v-model="editarIndicador.denominador" type="number" id="denominador"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 light:bg-gray-600 light:border-gray-500 light:placeholder-gray-400 light:text-white"
+                                        placeholder="Denominador" required>
+                                </div>
                                 <!-- Agrega aquí más campos si los necesitas -->
                                 <div class="flex justify-between mt-4">
                                     <button type="button" @click="showModal2 = false"
@@ -242,12 +307,8 @@ export default {
             message: '',
             dismissSecs: 5,
             dismissCountDown: 0,
-            showDismissibleAlert: false,
-            variant_response: 'success',
-            itemId: this.$route.params.id,
             showModal: false, // Variable para controlar la visibilidad del modal
             showModal2: false, // Variable para controlar la visibilidad del modal2
-            years: Array.from({ length: 51 }, (_, index) => 2000 + index),
             nuevoIndicador: {
                 codigo: '',
                 nombre: '',
@@ -376,7 +437,7 @@ export default {
             this.currentPage = Math.min(Math.max(page, 1), totalPages);
         },
         openEditModal(item) {
-            this.editarMeta = { ...item }; // Copia los datos del item en el formulario de edición
+            this.editarIndicador = { ...item }; // Copia los datos del item en el formulario de edición
             this.showModal2 = true; // Abre el modal de edición
         },
         toggleDescriptionExpansion(itemId) {
@@ -387,6 +448,14 @@ export default {
             } else {
                 // Si no está expandida, la abrimos
                 this.expandedDescriptions.push(itemId);
+            }
+        },
+        actualizarDatos(updatedItem) {
+            // Busca el índice del elemento actualizado en la lista de items
+            const index = this.items.findIndex(item => item.id === updatedItem.id);
+            if (index !== -1) {
+                // Actualiza el elemento en la lista con los nuevos datos
+                this.items.splice(index, 1, updatedItem);
             }
         }
 
@@ -419,8 +488,6 @@ export default {
 .hover\:underline:hover {
     text-decoration: underline;
 }
-
-/* Estilo para descripciones truncadas */
 .truncated-description {
     white-space: nowrap;
     overflow: hidden;
