@@ -7,7 +7,11 @@
       <div class="py-5">
         <p class="text-center text-3xl text-indigo-500 font-bold">📑 Listado 📑</p>
       </div>
-      <TableEntityActivity :items="innerData" />
+      <TableEntityActivity :items="filterRows">
+        <input v-model="search"
+          class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-5 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+          id="inline-searcg" type="text" placeholder="Search">
+      </TableEntityActivity>
     </section>
   </main>
 </template>
@@ -49,7 +53,19 @@ export default {
       services: [],
       entities: [],
       innerData: [],
+      search: ''
     };
+  },
+  computed: {
+    filterRows: function () {
+      return this.innerData.filter((result) => {
+        // Cambia 'key1' y 'key2' por las claves que deseas comparar
+        return result.entity.url.match(this.search) ||
+          result.entity.tipoActividad.match(this.search) ||
+          result.indicator.nombre.match(this.search) ||
+          result.service.nombre.match(this.search);
+      });
+    }
   },
   name: 'NuxtServices',
 }
