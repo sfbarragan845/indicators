@@ -150,10 +150,10 @@
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                     <EditIcon />
                                 </button>
-                                <button @click="deleteItem(item.id)"
+                                <!--button @click="deleteItem(item.id)"
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
                                     <DeleteIcon />
-                                </button>
+                                </button-->
                             </td>
                         </tr>
                     </tbody>
