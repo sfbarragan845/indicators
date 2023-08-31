@@ -53,6 +53,11 @@ export default {
         path: '/public/services/:id',
         component: resolve(__dirname, 'pages/public/services/[id].vue')
       });
+      routes.push({
+        name: 'cumplimiento-id',
+        path: '/public/Cumplimiento/:id',
+        component: resolve(__dirname, 'pages/public/Cumplimiento/[id].vue')
+      });
     },
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa

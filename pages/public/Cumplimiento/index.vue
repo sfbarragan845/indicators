@@ -7,7 +7,7 @@
       <div class="py-4">
         <b-navbar-brand class="text-indigo-500 hover:text-indigo-600 inline-flex align-center gap-x-4" href="/">
           <ReturnIcon />
-          <h1 class="text-lg font-bold">Servicios</h1>
+          <h1 class="text-lg font-bold">Cumplimiento</h1>
         </b-navbar-brand>
       </div>
       <section class="container px-4 sm:px-8">
@@ -25,7 +25,7 @@
 
 import icons from '~/icons';
 
-import TableEntity from '~/components/TableEntityService.vue';
+import TableEntity from '~/components/TableEntityCumplimiento.vue';
 
 let data_service;
 export default {
@@ -38,11 +38,11 @@ export default {
       data_service
     }
   },
-  name: 'NuxtServices',
+  name: 'NuxtCumplimiento',
 
   methods:{
     async  loadData(){
-      await this.$axios.get('/Servicios').then(response => {
+      await this.$axios.get('/Cumplimientoes').then(response => {
         this.data_service = response.data;
       })
     }

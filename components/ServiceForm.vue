@@ -11,7 +11,7 @@
       </v-row>
       <v-row align="center" justify="center">
         <v-col  cols="12" md="6" align="center" justify="center">
-          <v-btn  class="mt-4" to="/public/services/"><NuxtLink to="/public/services/list_services">Cancelar</NuxtLink></v-btn>
+          <v-btn  class="mt-4" to="/public/services/"><NuxtLink to="/public/services/">Cancelar</NuxtLink></v-btn>
         </v-col>
         <v-col  cols="12" md="6" align="center" justify="center">
           <v-btn @click="submitForm(serviceInfo)" :disabled="!valid"  v-if="hasName" class="text-none mb-4 mt-4 red--text"

@@ -2,7 +2,7 @@
   <div>
     <Menu/>
     <div class="one">
-      <h1>Agregar  Servicio</h1>
+      <h1>Editar  Cumplimiento</h1>
     </div>
     <b-alert
       :show="dismissCountDown"
@@ -12,12 +12,12 @@
       @dismiss-count-down="countDownChanged">
       {{ message }}
     </b-alert>
-    <ServiceForm buttonText="Guardar" :submitForm="registerService" hasName="true" id_service="0"/>
+    <ServiceForm buttonText="Guardar" :submitForm="editCumplimiento" hasName="true" v-bind:id_service="id_service"/>
   </div>
 </template>
 
 <script>
-import ServiceForm from '../../../components/ServiceForm.vue'
+import ServiceForm from '../../../components/ComplianceForm.vue'
 export default {
   name: 'NuxtRegisterService',
   components:{
@@ -30,33 +30,35 @@ export default {
       dismissCountDown: 0,
       showDismissibleAlert: false,
       variant_response:'success',
+      id_service: this.$route.params.id,
+
     }
   },
   methods:{
-    async  registerService(serviceInfo){
-      await this.$axios.post('/Servicios', serviceInfo).then((response) => {
+    async  editCumplimiento(cumplimientoInfo){
+      await this.$axios.put(`/Cumplimientoes/${this.$route.params.id}`, cumplimientoInfo).then((response) => {
           if (response.status === 201 || response.status === 200) {
-            this.message = 'Servicio registrado con exito';
+            this.message = 'Cumplimiento actualizado con exito';
             this.variant_response= 'success';
             this.showAlert();
             setTimeout(() => {
-              this.$router.replace('/public/services/');
+              this.$router.replace('/public/Cumplimiento/');
             }, "2000");
           } else {
             this.variant_response= 'danger';
             this.message =
-              'Error al registrar el servicio';
+              'Error al actualizado el cumplimiento';
               this.showAlert();
           }
         }) .catch((error) => {
           if (error.response && error.response.status === 400) {
             this.variant_response = 'danger';
-            this.message = 'Error al registrar el servicio';
+            this.message = 'Error al actualizado el cumplimiento';
             this.showAlert();
           }
         });
 
-      console.log(serviceInfo)
+      console.log(cumplimientoInfo)
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown

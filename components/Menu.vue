@@ -20,6 +20,12 @@
         >
         <NuxtLink
           class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
+          to="/public/Cumplimiento/"
+        >
+          <b>Cumplimiento</b></NuxtLink
+        >
+        <NuxtLink
+          class="text-gray-50 hover:text-gray-300 transition duration-300 hover:no-underline"
           to="/public/Actividad"
         >
           <b>Actividad</b>

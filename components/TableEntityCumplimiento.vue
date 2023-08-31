@@ -32,25 +32,28 @@
                     <thead>
                         <tr
                             class="bg-gray-50 border-b border-gray-200 text-xs leading-4 text-gray-500 uppercase tracking-wider">
-                            <th class="px-6 py-3 font-medium">Nro</th>
-                            <th class="px-6 py-3 font-medium">Nombre</th>
+                            <th class="px-6 py-3 font-medium">ID</th>
+                            <th class="px-6 py-3 font-medium">Cumplimiento</th>
+                            <th class="px-6 py-3 font-medium">Observación</th>
+                            <th class="px-6 py-3 font-medium">Meta ID</th>
+                            <th class="px-6 py-3 font-medium">Actividad ID</th>
                             <th class="px-6 py-3 text-center font-medium">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr :class="{ 'bg-gray-100': index % 2 === 1 }" v-for="(item, index) in items" :key="item.id">
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.id }}</td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.servicioAportaClienteExterno }}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.cumplimientoMeta }}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.observacion}}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.metaId}}</td>
+                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-200 text-sm">{{ item.actividadId}}</td>
+
                             <td
                                 class="px-6 inline-flex w-full justify-center gap-x-4 py-2 whitespace-no-wrap border-b border-gray-200 text-sm text-center">
-                                <NuxtLink :to="`/public/services/${item.id}`"
+                                <NuxtLink :to="`/public/Cumplimiento/${item.id}`"
                                     class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600">
                                     <EditIcon />
                                 </NuxtLink>
-                                <button @click="deleteItem(item.id)"
-                                    class="inline-block px-4 py-2 text-sm leading-5 font-medium rounded-md text-white bg-red-500 hover:bg-red-600">
-                                    <DeleteIcon />
-                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -85,35 +88,35 @@ export default {
       }
     },
     methods: {
-        async deleteItem(itemId) {
-          // Aquí se debería manejar la lógica de eliminación
-          console.log(`Eliminar entidad con ID: ${itemId}`)
-          await this.$axios.delete(`/Servicios/${itemId}`).then((response) => {
-            if (response.status === 204 || response.status === 200) {
-              this.message = 'Servicio eliminado con exito';
-              this.variant_response= 'success';
-              this.showAlert();
-              setTimeout(() => {
-                location.reload()
-              }, "2000");
-            } else {
-              this.variant_response= 'danger';
-              this.message =
-                'Error al eliminar el servicio';
-                this.showAlert();
-            }
-          }) .catch((error) => {
-            if (error.response && error.response.status === 400) {
-              this.variant_response = 'danger';
-              this.message = 'Error al eliminar el servicio';
-              this.showAlert();
-            }
-          });
-        },
+        // async deleteItem(itemId) {
+        //   // Aquí se debería manejar la lógica de eliminación
+        //   console.log(`Eliminar entidad con ID: ${itemId}`)
+        //   await this.$axios.delete(`/Cumplimiento/${itemId}`).then((response) => {
+        //     if (response.status === 204 || response.status === 200) {
+        //       this.message = 'Servicio eliminado con exito';
+        //       this.variant_response= 'success';
+        //       this.showAlert();
+        //       setTimeout(() => {
+        //         location.reload()
+        //       }, "2000");
+        //     } else {
+        //       this.variant_response= 'danger';
+        //       this.message =
+        //         'Error al eliminar el servicio';
+        //         this.showAlert();
+        //     }
+        //   }) .catch((error) => {
+        //     if (error.response && error.response.status === 400) {
+        //       this.variant_response = 'danger';
+        //       this.message = 'Error al eliminar el servicio';
+        //       this.showAlert();
+        //     }
+        //   });
+        // },
         createNewItem() {
             // Aquí se debería manejar la lógica de creación de nueva entidad
             console.log('Crear nueva entidad')
-            this.$router.push({ path: '/public/services/services' })
+            this.$router.push({ path: '/public/Cumplimiento/cumplimiento' })
         },
         countDownChanged(dismissCountDown) {
           this.dismissCountDown = dismissCountDown
